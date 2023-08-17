@@ -16,18 +16,13 @@ from app_common_python import LoadedConfig, isClowderEnabled
 # flake8: noqa
 from pythonjsonlogger import jsonlogger
 
-API_PREFIX = "/api/"
-APP_NAME = os.environ.get("APP_NAME", "{{cookiecutter.project_name | replace("_", "-")}}")
 
-if isClowderEnabled():
-    deploy_name = os.environ("APP_NAME")
-    for endpoint in LoadedConfig.AppConfig.Endpoints:
-        if endpoint.App == deploy_name:
-            API_PATH = API_PREFIX + endpoint.ApiPath
+API_PREFIX = "api"
+APP_NAME = os.environ.get("APP_NAME", "{{cookiecutter.project_name | replace(\"_\", \"-\")}}")
+API_PATH = f"{API_PREFIX}/{APP_NAME}"
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -178,3 +173,13 @@ LOGGING = {
         }
     },
 }
+
+def _get_clowder_api_path_from_app_name(app_name):
+    for endpoint in LoadedConfig.AppConfig.Endpoints:
+        if endpoint.App == app_name:
+            return endpoint.ApiPath
+
+
+if isClowderEnabled():
+    API_PATH = _get_clowder_api_path_from_app_name(APP_NAME)
+    DEBUG = False
