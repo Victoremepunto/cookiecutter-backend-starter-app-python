@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.urls import path, include
 from rest_framework import routers
+from django.conf import settings
 
 from . import views
 
@@ -27,6 +28,6 @@ urlpatterns = [
     path('healthz', views.healthz),
     path('readyz', views.readyz),
     path('livez', views.livez),
-    path('', include(router.urls)),
+    path(settings.API_PREFIX, include(router.urls)),
     path('', include('django_prometheus.urls')),
 ]
