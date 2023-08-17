@@ -11,10 +11,9 @@ CONTAINER_ENGINE=podman
 BONFIRE_CONFIG=".bonfirecfg.yaml"
 CLOWDAPP_TEMPLATE=clowdapp.yaml
 CLOWDAPP_NAME={{cookiecutter.project_name | replace("_", "-")}}
-NAMESPACE=''
 PYTHON_CMD=python3
 
-run: venv_check
+run: install
 	${PYTHON_CMD} manage.py runserver
 
 install_pre_commit: venv_check
@@ -90,8 +89,14 @@ push-image:
 push-image-docker: CONTAINER_ENGINE=docker
 push-image-docker: push-image
 
-bonfire_process:
-	@bonfire process -c $(BONFIRE_CONFIG) $(CLOWDAPP_NAME) \
+
+namespace_check:
+ifndef NAMESPACE
+	$(error NAMESPACE variable undefined)
+endif
+
+bonfire_process: namespace_check
+	bonfire process -c $(BONFIRE_CONFIG) $(CLOWDAPP_NAME) \
 		-p service/IMAGE=$(IMAGE) -p service/IMAGE_TAG=$(IMAGE_TAG) -n $(NAMESPACE)
 
 bonfire_reserve_namespace:
@@ -100,6 +105,6 @@ bonfire_reserve_namespace:
 bonfire_user_namespaces:
 	bonfire namespace list --mine
 
-bonfire_deploy:
+bonfire_deploy: namespace_check
 	bonfire deploy -c $(BONFIRE_CONFIG) $(CLOWDAPP_NAME) \
 		-p service/IMAGE=$(IMAGE) -p service/IMAGE_TAG=$(IMAGE_TAG) -n $(NAMESPACE)
