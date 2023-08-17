@@ -17,12 +17,13 @@ setup: venv_check
 	python -m pip install cookiecutter
 	rm -rf baking-test
 	cookiecutter . --no-input
+	cd baking-test && make install
 
-test: venv_check setup
+test: setup
 	cd baking-test && make -f Makefile test
 
-run: venv_check setup
+run: setup
 	cd baking-test && make -f Makefile run
 
-coverage: venv_check setup
+coverage: setup
 	cd baking-test && make -f Makefile coverage
