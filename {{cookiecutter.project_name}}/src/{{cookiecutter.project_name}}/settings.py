@@ -17,6 +17,7 @@ from app_common_python import LoadedConfig, isClowderEnabled
 from pythonjsonlogger import jsonlogger
 
 API_PREFIX = "/api/"
+APP_NAME = os.environ.get("APP_NAME", "{{cookiecutter.project_name | replace("_", "-")}}")
 
 if isClowderEnabled():
     deploy_name = os.environ("APP_NAME")

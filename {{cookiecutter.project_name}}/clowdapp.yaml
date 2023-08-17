@@ -22,6 +22,8 @@ objects:
           enabled: true
           apiPath: "${APP_NAME}"
       podSpec:
+        env:
+          APP_NAME: "${APP_NAME}"
         image: ${IMAGE}:${IMAGE_TAG}
         resources:
           limits:
