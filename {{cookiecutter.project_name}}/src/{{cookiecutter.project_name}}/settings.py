@@ -18,7 +18,7 @@ from pythonjsonlogger import jsonlogger
 
 
 API_PREFIX = "api"
-APP_NAME = os.environ.get("APP_NAME", "{{cookiecutter.project_name | replace(\"_\", \"-\")}}")
+APP_NAME = os.environ.get("APP_NAME", "{{cookiecutter.project_name | replace('_', '-')}}")
 API_PATH = f"{API_PREFIX}/{APP_NAME}"
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.

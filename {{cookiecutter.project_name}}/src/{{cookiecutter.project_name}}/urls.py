@@ -28,6 +28,6 @@ urlpatterns = [
     path('healthz', views.healthz),
     path('readyz', views.readyz),
     path('livez', views.livez),
-    path(settings.API_PREFIX, include(router.urls)),
+    path(settings.API_PATH, include(router.urls)),
     path('', include('django_prometheus.urls')),
 ]
