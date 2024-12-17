@@ -7,7 +7,7 @@ HOST_WEBPORT=$(CONTAINER_WEBPORT)
 CONTEXT = .
 CONTAINER_ENGINE = podman
 BONFIRE_CONFIG = .bonfirecfg.yaml
-POSTGRESQL_IMAGE=quay.io/cloudservices/postgresql-rds:15
+POSTGRESQL_IMAGE=quay.io/cloudservices/postgresql-rds:16
 CLOWDAPP_TEMPLATE ?= clowdapp.yaml
 APP_NAME ?= {{cookiecutter.project_name | replace("_", "-")}}
 PYTHON_CMD = python3.11
@@ -47,7 +47,7 @@ install_pre_commit: venv_check
 	# Remove any outdated tools
 	rm -rf $(TEMPDIR_INFOSECTOOLS)
 	# Clone up-to-date tools
-	git clone https://gitlab.corp.redhat.com/infosec-public/developer-workbench/tools.git /tmp/infosec-dev-tools
+	git clone https://gitlab.cee.redhat.com/infosec-public/developer-workbench/tools.git /tmp/infosec-dev-tools
 
 	# Cleanup installed old tools
 	$(TEMPDIR_INFOSECTOOLS)/scripts/uninstall-legacy-tools
